@@ -42,6 +42,14 @@ define command {
   command_line    /usr/bin/printf "%b" "$LONGDATETIME$ - $SERVICEDESC$ $SERVICESTATE$\n\n$HOSTALIAS$  $NOTIFICATIONTYPE$\n\n$SERVICEOUTPUT$\n\nLogin: ssh://$HOSTNAME$" | <%=node['nagios']['server']['mail_command']%> -s "** $NOTIFICATIONTYPE$ - $HOSTALIAS$ - $SERVICEDESC$ - $SERVICESTATE$" $CONTACTEMAIL$
 }
 
+# Commands added through nagios_commands data bags
+<% @commandss.each do |service| -%>
+define command {
+  command_name    check_<%= command['id'] %>
+  command_line    <%= command ['command_line'] %>
+}
+<% end -%>
+
 # Commands added through nagios_services data bags
 <% @services.each do |service| -%>
 <% unless service['use_existing_command'] -%>
