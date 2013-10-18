@@ -238,6 +238,16 @@ Example `nagios_contactgroup` data bag item
 }
 ```
 
+### Commands
+To add command objects to Nagios create a `nagios_commands` data bag containing definitions for commands, consistent of the command_name (data bag object id) and command_line value.
+
+```javascript
+{
+  "id": "something_checker",
+  "command_line": "$USER1$/check_something"
+}
+```
+
 ### Services
 To add service checks to Nagios create a `nagios_services` data bag containing definitions for services to be monitored. This allows you to add monitoring rules without directly editing the services and commands templates in the cookbook. Each service will be named based on the id of the data bag item and the command will be named using the same id prepended with "check\_". Just make sure the id in your data bag doesn't conflict with a service or command already defined in the templates.
 
